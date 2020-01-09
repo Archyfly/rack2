@@ -7,7 +7,7 @@ class TimeFormatter
   end
 
   def call(env)
-    # response = Rack::Response.new
+    response = Rack::Response.new
     @request = Rack::Request.new(env)
 
     case @request.path_info
@@ -16,14 +16,14 @@ class TimeFormatter
       params = @request.params
       params_arr = []
 
-      #response.write "This is Rack and params is #{params} <br>"
+      response.write "This is Rack and params is #{params} <br>"
 
       # создаем массив из строки запроса, разделитель: запятая.
       # получаем массив значений, которые можем сравнивать с форматом.
       params.each { |key, value|
         params_arr = value.split(%r{,s*})
       }
-      #response.write "Params_arr FROM array is #{params_arr} <br>"
+      response.write "Params_arr FROM array is #{params_arr} <br>"
 
       array_from_first_letters = []
       params_arr.each { |val|
@@ -35,7 +35,7 @@ class TimeFormatter
       }
 
       time_string = ""
-      #response.write "Params array_from_first_letters for strftime:  #{array_from_first_letters} <br>"
+      response.write "Params array_from_first_letters for strftime:  #{array_from_first_letters} <br>"
 
       array_from_first_letters.each { |arr|
         time_string = time_string + "%"+arr+"/"
@@ -43,24 +43,21 @@ class TimeFormatter
 
       time_format = Time.now
       time_request_format = time_format.strftime("Printed on #{time_string}")
-      #response.write "Time from request format:  #{time_request_format} <br>"
+      response.write "Time from request format:  #{time_request_format} <br>"
 
-    #  when //
-    #  response.write("Empty response")
+    when //
+      response.write("Empty response...")
     end
 
 
     # Set Content-Type
-    #response['Content-Type'] = "text/html"
+    response['Content-Type'] = "text/html"
 
     # Set cookie
-    #response.set_cookie("my_cookie", "Hello my Rack");
+    response.set_cookie("my_cookie", "Hello my Rack");
 
-     #[status, headers, body]
-    # response.finish
-
-    status, headers, body = @app.call(env)
-    headers['X-Runtime'] = "%fs" % ( Time.now )
+    # [status, headers, body]
+    response.finish
   end
 
   def valid_format(val)
