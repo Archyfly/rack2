@@ -16,7 +16,11 @@ class TimeFormatter
 
       array_from_first_letters = []
       params_arr.each { |val|
-        array_from_first_letters.push(val[0])
+        if valid_format(val)
+          array_from_first_letters.push(val[0])
+        else
+          array_from_first_letters.push(" Unknown format #{val}")
+        end
       }
 
       time_string = ""
@@ -28,4 +32,9 @@ class TimeFormatter
       time_request_format = time_format.strftime("Printed on #{time_string}, params is #{params}, params_arr is #{params_arr}")
 
   end
+
+  def valid_format(val)
+    FORMATS.include?(val.to_s)
+  end
+
 end
