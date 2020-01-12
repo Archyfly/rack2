@@ -10,7 +10,7 @@ class App
     path = env['PATH_INFO']
     request = Rack::Request.new(env)
     response = Rack::Response.new
-    
+
     if path != '/time'
       return [404, headers, ["Not found, #{path}, #{request}, #{request.params}"]]
     end
@@ -18,6 +18,7 @@ class App
     begin
       value = request.params
       result = @formatter.format(value)
+      #result = 'new result'
       return [200, headers, [result]]
     rescue FormatError
       return [400, headers, ['Incorrect input format']]
