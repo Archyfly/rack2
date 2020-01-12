@@ -9,7 +9,8 @@ class App
   def call(env)
     path = env['PATH_INFO']
     request = Rack::Request.new(env)
-
+    response = Rack::Response.new
+    
     if path != '/time'
       return [404, headers, ["Not found, #{path}, #{request}, #{request.params}"]]
     end

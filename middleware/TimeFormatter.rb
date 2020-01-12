@@ -16,7 +16,7 @@ class TimeFormatter
 
       array_from_first_letters = []
       params_arr.each { |val|
-        if valid_format(val)
+        if valid_format?(val)
           array_from_first_letters.push(val[0])
         else
           array_from_first_letters.push(" Unknown format #{val}")
@@ -33,7 +33,7 @@ class TimeFormatter
 
   end
 
-  def valid_format(val)
+  def valid_format?(val)
     FORMATS.include?(val.to_s)
   end
 
