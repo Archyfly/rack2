@@ -1,5 +1,4 @@
 require_relative 'middleware/TimeFormatter'
-require_relative 'format_error'
 
 class App
   def initialize
@@ -15,14 +14,14 @@ class App
       return [404, headers, ["Not found, #{path}, #{request}, #{request.params}"]]
     end
 
-    begin
+    # begin
       value = request.params
       result = @formatter.format(value)
       #result = 'new result'
       return [200, headers, [result]]
-    rescue FormatError
-      return [400, headers, ['Incorrect input format']]
-    end
+    # rescue FormatError
+    #   return [400, headers, ['Incorrect input format']]
+    # end
   end
 
 private
