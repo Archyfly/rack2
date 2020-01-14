@@ -1,32 +1,52 @@
 class TimeFormatter
 
-  FORMATS = ["year", "month", "day", "hour", "min", "sec"]
+  FORMATS = ["year", "month", "day", "Hour", "Minutes", "Seconds"]
 
-  def format(params)
+  def initialize
+    @params_arr = []
+    @correct_params = []
+    @unknown_params = []
+    @array_from_first_letters = []
+  end
 
-    params_arr = []
 
-    params.each { |key, value|
-      params_arr = value.split(%r{,w*})
+  def get_time
+
+    @correct_params.each { |val| @array_from_first_letters.push(val[0]) }
+
+    time_string = ""
+    @array_from_first_letters.each { |arr|
+      time_string = time_string + "%"+arr+"/"
     }
 
-    @t = ''
-    params_arr.each { |val|
-      if valid_format?(val)
-        @t = ("#{@t} #{Time.now.send(val)}")
+    time_format = Time.now
+    time_request_format = time_format.strftime("Printed on #{time_string}, params_arr is #{@params_arr}, unknown_params is #{@unknown_params}")
+
+  end
+
+  def valid_format?(params)
+    params.each { |key, value|
+      @params_arr = value.split(%r{,s*})
+    }
+
+    @params_arr.each { |value|
+      if FORMATS.include?(value.to_s)
+        @correct_params << value
       else
-        @t = ("#{@t} Unknown format: #{val}")
+        @unknown_params << value
       end
-      }
-    return @t.to_s
+    }
+
+    if @unknown_params == []
+      return true
+    else
+      return false
+    end
+
   end
 
-  def time_res(params)
-    Time.send(params)
-  end
-
-  def valid_format?(val)
-    FORMATS.include?(val.to_s)
+  def unknown_params
+    @unknown_params
   end
 
 end
